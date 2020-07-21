@@ -1,0 +1,46 @@
+{% extends "auctions/layout.html" %}
+
+{% block title %}
+    My Cart
+{% endblock %}
+
+
+{% block body %}
+<div class="container">
+    <h2>Cart</h2>
+    <p>Total: {{ count }} items.</p>
+</div>
+<div class="container" id="listings">
+    {% for item in items %}
+    
+    <div class="card mb-3" style="max-width: 540px;" id="card-listings">
+        <div class="row no-gutters">
+          <div class="col-md-4">
+           
+            <a href="/product/{{ item.title }}">
+              <div class="mask rgba-white-slight">
+                <img src="{{ item.image }}" class="card-img" alt="{{ item.title }}">
+              </div>
+          </a>
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              
+              <p class="card-text">{{item.description}}</p>
+              <p class="card-text">${{item.price}}</p>
+   
+              <p class="card-text">{{ item.get_category_display }}</p>
+              <form action="/product/{{ item.title }}" >
+                <button type="submit" class="btn btn-primary">View</button>
+            </form>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      {% empty %}
+      <h3>You havent won any bid yet.</h3>
+      {% endfor %}
+</div>
+{% endblock %}

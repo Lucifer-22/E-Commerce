@@ -1,0 +1,181 @@
+{% extends "auctions/layout.html" %}
+
+{% block title %}
+    {{ item.title }}
+{% endblock %}
+
+{% block body %}
+  <main class="mt-5 pt-4">
+    <div class="container dark-grey-text mt-5">
+        {% if highest_bidder %}
+            <h1 class="lead font-weight-bold green align-content-center">Congratulations! You are the highest bidder. Check your Cart.</h1>
+        {% endif %}
+      <!--Grid row-->
+      <div class="row wow fadeIn">
+
+        <!--Grid column-->
+        <div class="col-md-6 mb-4">
+            <div class="p-lg-1">
+                <img src="{{ item.image }}" class="img-fluid" alt="{{ item.title }}" width="1000px" height="auto">
+            </div>
+            <br>
+            <br>
+            <div class="mb-auto d-flex justify-content-center">
+                {% if user.is_authenticated %}
+                    {% if not owner %}
+                        {% if watching %}
+                            <form action="/watchlist/remove/{{ item.title }}">
+                                <button type="submit" class="btn btn-danger btn-lg">Stop Watching</button>
+                            </form> 
+                        {% else %} 
+                            <form action="/watchlist/add/{{ item.title }}">
+                                <button type="submit" class="btn btn-success btn-lg my-0 p">Watch</button>
+                            </form>
+                        {% endif %}
+                    {% endif %}    
+                {% else %}
+                    Sign in to add into watchlist.
+                {% endif %}
+            </div>
+            <br><br>    
+            {% if user.is_authenticated %}                
+                {% if not owner %}
+                    
+                    <div class="mb-auto d-flex justify-content-center">
+                        <form action="/bid/{{ item.title }}" method="POST">
+                            {% csrf_token %}
+                            <label for="bid" class="lead font-weight-bold"><strong>Bid your amount:</strong> </label>
+                            <input type="number" min="1" step="0.01" name="bid" value="{{ item.price }}">
+                            <button type="submit" class="btn btn-secondary btn-mdb-color">Place Bid</button>
+                        </form>
+                    </div>
+                {% else %}
+                    <div class="mb-auto d-flex justify-content-center">
+                        <a href="/closebid/{{ item.title }}">
+                            <button type="submit" class="btn btn-secondary btn-lg">CLOSE AUCTION</button>
+                        </a>                        
+                    </div>
+                {% endif %}
+            {% endif %}
+            
+        </div>
+        <!--Grid column-->
+
+        <!--Grid column-->
+        <div class="col-md-6 mb-6">
+
+          <!--Content-->
+          <div class="p-6">
+            <h3>
+              <strong>
+              <a href="" class="dark-grey-text">{{ item.title }}
+                  <span class="badge badge-pill danger-color">NEW</span>
+              </a>
+              </strong>
+            </h3>
+
+            <div class="mb-3">
+              <a href="">
+                <span class="badge blue mr-1">{{ item.get_category_display }}</span>
+              </a>
+              
+            </div>
+
+            <p class="lead">
+               <span>${{ item.price }}</span>
+            </p>
+
+            <p class="lead font-weight-bold">Description</p>
+            <p>{{ item.description }}</p>
+
+            <br><hr>
+            
+            {% if user.is_authenticated %}
+              <form action="comment/{{ item.title }}" method="POST">
+                {% csrf_token %}
+                <label for="comment"> Add a Comment: </label>
+                <input type="text" name="comment" value="">
+                <button type="submit" class="btn btn-success">Send</button>
+              </form>
+
+            {% else %}
+                Sign in to add comment.
+            {% endif %}
+
+            <br><hr>
+
+            <div class="col-md-8 text-center">
+                {% if highest_bidder %}
+                  <h1 class="lead font-weight-bold green">Congratulations! You are the highest bidder. check your Cart.</h1>
+                {% endif %}
+
+                {% if comments %}
+                <h4 class="my-4 h4">Comments</h4>
+                <ul>
+                  {% for comment in comments %}
+                    <li>{{comment.user}} said: '{{comment.comment}}'  on ->({{comment.comment_date}})</li>
+                  {% endfor %}
+                </ul> 
+                {% endif %}         
+            </div>
+              
+
+          </div>
+          <!--Content-->
+
+        </div>
+        <!--Grid column-->
+
+      </div>
+      <!--Grid row-->
+
+      <hr>
+
+      <!--Grid row comment zone-->
+      <div class="row d-flex justify-content-center wow fadeIn">
+
+        <!--Grid column-->
+        
+        <!--Grid column-->
+
+      </div>
+      <!--Grid row-->
+
+      <!--Grid row random advertisements-->
+      <p><i>Advertisements</i></p>
+      <div class="row wow fadeIn">
+        
+        <!--Grid column-->
+        <div class="col-lg-4 col-md-12 mb-4">
+
+          <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/11.jpg" class="img-fluid" alt="">
+
+        </div>
+        <!--Grid column-->
+
+        <!--Grid column-->
+        <div class="col-lg-4 col-md-6 mb-4">
+
+          <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/12.jpg" class="img-fluid" alt="">
+
+        </div>
+        <!--Grid column-->
+
+        <!--Grid column-->
+        <div class="col-lg-4 col-md-6 mb-4">
+
+          <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/13.jpg" class="img-fluid" alt="">
+
+        </div>
+        <!--Grid column-->
+
+      </div>
+      <!--Grid row-->
+
+    </div>
+</main>
+
+
+{% endblock %}
+
+

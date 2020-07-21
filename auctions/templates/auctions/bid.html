@@ -1,0 +1,30 @@
+{% extends "auctions/layout.html" %}
+
+{% block title %}
+    My bids
+{% endblock %}
+
+{% block body %}
+
+    {% if error_message %}
+        <h1 style="color:red;">{{ error_message }}</h1>
+    {% else %}
+        <h1 style="color:greenyellow;">{{ message }}</h1>
+        <h1>You bid on - {{ title }}!</h1>
+        <br>
+        <h2>Your bid:</h2>
+        <h4>Item - {{ title }}</h4>
+        <h4>Amount - {{ bid }}</h4>
+
+    {% endif %}
+<hr>
+<br> 
+<br>
+
+    <div class="mb-auto d-flex justify-content-center">
+        <a href="{% url 'index' %}">
+            <button type="submit" class="btn btn-secondary btn-lg">Go Home</button>
+        </a>                        
+    </div>
+
+{% endblock %}

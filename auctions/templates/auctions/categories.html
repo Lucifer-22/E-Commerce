@@ -1,0 +1,28 @@
+{% extends "auctions/layout.html" %}
+
+{% block title %}
+    Categories
+{% endblock %}
+
+{% block body %}
+<div class="container">   
+    <div class="p-lg-2 mb-auto justify-content-center-lg">
+        <ol>
+            {% for keys, values in categories %}
+                <a href="category/{{ keys }}">
+                    <li><strong class="dark-grey-text">{{ values }}</strong></li>
+                </a>    
+            {% endfor %}
+        </ol>
+                                
+    </div>
+    <hr>
+    <br> 
+    
+    <div class="o d-flex justify-content-center">
+        <a href="{% url 'index' %}">
+            <button type="submit" class="btn btn-secondary btn-md">Go Home</button>
+        </a>                        
+    </div>
+</div>
+{% endblock %}
